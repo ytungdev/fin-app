@@ -10,3 +10,11 @@ def accounts(request):
     'all_account': all_account,
   }
   return HttpResponse(template.render(context, request))
+
+def testing(request):
+  data = Account.objects.filter(provider='HSBC', location="HK").values()
+  template = loader.get_template('testing.html')
+  context = {
+    'data': data,
+  }
+  return HttpResponse(template.render(context, request))
