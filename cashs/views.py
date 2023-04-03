@@ -14,4 +14,4 @@ def add_record(request):
   context = {
     'accounts': accounts,
   }
-  return render(request, 'add_records.html', context)
+  return render(request, 'add_record.html', context)

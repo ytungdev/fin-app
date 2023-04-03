@@ -7,7 +7,15 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{% url 'accounts:add' %}" method="post">
+    {% if data %}
+        <h1> Account detail : {{ data.name }}</h1>
+        <form action="{% url 'accounts:details' data.id %}" method="post">
+    {% else %}
+        <h1> Create account </h1>
+        <form action="{% url 'accounts:add' %}" method="post">
+    {% endif %}
+
+    
         {% csrf_token %}
         <table>
         {% for field in form %}
@@ -18,7 +26,10 @@
         {% endfor %}
             <tr>
                 <td></td>
-                <td><input type="submit" value="Save" style="float:right"></td>
+                <td>
+                    <input type="button" value="back" style="float:right" onclick="history.back()">
+                    <input type="submit" value="Save" style="float:right">
+                </td>
             </tr>
         </table>
     </form>
