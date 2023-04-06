@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+  FIN-APP
+{% endblock %}
+
+{% block header %}
+  FIN-APP
+{% endblock %}
+
+
+{% block content %}
+    <ul>
+        <li><a href="{% url "accounts:all" %}">accounts</a></li>
+        <li><a href="{% url "cashs:add" %}">add_cash_record</a></li>
+        <li><a href="{% url "dashboard:testing" %}">testing</a></li>
+    </ul>
+{% endblock %}
+
+
+{% block actions %}
+    {% comment %} <a href="{% url 'dashboard:home' %}"><button>Home</button></a> {% endcomment %}
+{% endblock%}

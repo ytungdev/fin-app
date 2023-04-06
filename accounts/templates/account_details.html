@@ -1,37 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}
+  Accounts - details
+{% endblock %}
+
+{% block header %}
     {% if data %}
-        <h1> Account detail : {{ data.name }}</h1>
+        Accounts - details : {{ data.name }}
+    {% else %}
+        Accounts - Create
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    {% if data %}
         <form action="{% url 'accounts:details' data.id %}" method="post">
     {% else %}
-        <h1> Create account </h1>
         <form action="{% url 'accounts:add' %}" method="post">
     {% endif %}
 
-    
-        {% csrf_token %}
-        <table>
-        {% for field in form %}
-            <tr>
-                <td>{{field.label_tag}}</td>
-                <td>{{field}}</td>
-            </tr>
-        {% endfor %}
-            <tr>
-                <td></td>
-                <td>
-                    <input type="button" value="back" style="float:right" onclick="history.back()">
-                    <input type="submit" value="Save" style="float:right">
-                </td>
-            </tr>
-        </table>
-    </form>
-</body>
-</html>
+    {% csrf_token %}
+    <table>
+    {% for field in form %}
+        <tr>
+            <td>{{field.label_tag}}</td>
+            <td>{{field}}</td>
+        </tr>
+    {% endfor %}
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Save" style="float:right">
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}
+
+
+{% block actions %}
+    <input type="button" value="back" style="" onclick="history.back()">
+    <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
+{% endblock%}
+

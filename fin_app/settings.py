@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
-    'cashs'
+    'cashs',
+    'dashboard'
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,8 @@ ROOT_URLCONF = 'fin_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 'DIRS': [f"{BASE_DIR}/templates"],
+        'DIRS': [f"{BASE_DIR}/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

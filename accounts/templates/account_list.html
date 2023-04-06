@@ -1,19 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        table, th, td {
-            border: 1px solid black;
-          }
-    </style>
-</head>
-<body>
-    <h1>Accounts</h1>
-    <hr>
+{% extends "base.html" %}
+
+{% block title %}
+  Accounts - list
+{% endblock %}
+
+{% block header %}
+  Accounts - list
+{% endblock %}
+
+
+{% block content %}
     <table>
         {% if all_account %}
             {% for x in all_account %}
@@ -28,7 +24,12 @@
             <tr><td>No reocrd</td><tr>
         {% endif %}
     </table>
-    <hr>
+{% endblock %}
+
+
+{% block actions %}
     <a href="{% url 'accounts:add' %}"><button>Add</button></a>
-</body>
-</html>
+
+    <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
+    {% comment %} <input type="button" value="back" style="" onclick="history.back()"> {% endcomment %}
+{% endblock%}
