@@ -1,24 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add records - Cash</title>
-</head>
-<body>
-    {% if accounts %}
+{% extends "base.html" %}
+
+{% block title %}
+    Cash - add record
+{% endblock %}
+
+{% block header %}
+    Cash - add record
+{% endblock %}
+
+
+{% block content %}
+    <form action="{% url 'cashs:add' %}" method="post">
+    {% csrf_token %}
     <table>
-        {% for account in accounts %}
+        {% for account, bal in accounts %}
             <tr>
                 <td>{{ account.name }}</td>
                 <td>{{ account.curr}}</td>
-                <td><input type="number"></td>
+                <td><input type="number" name="ac_{{ account.id}}" value="{{ bal }}"></td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td>No account is available.</td>
             </tr>
         {% endfor %}
-    </table>
-    {% else %}
-        <p>No account is available.</p>
-    {% endif %}     
-</body>
-</html>
+        <tr>
+            <td colspan="3">
+                <input type="date" name="date" style="float:right">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <input type="submit" value="Save" style="float:right">
+            </td>
+        </tr>
+    </table> 
+
+{% endblock %}
+
+
+{% block actions %}
+    <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
+{% endblock%}

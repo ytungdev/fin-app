@@ -2,8 +2,6 @@ from django.db import models
 from accounts.models import Account
 from datetime import date
 
-# Create your models here.
-from django.db import models
 
 class CashRecord(models.Model):
   account       = models.ForeignKey(Account, on_delete=models.CASCADE)
