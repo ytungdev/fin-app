@@ -14,6 +14,7 @@ class AccountList(generic.ListView):
 def details(request, ac_id):
    ac = get_object_or_404(Account, pk=ac_id)
    if request.method == 'POST':
+    ## receive new data and update db
     form = AccountForm(request.POST)
     if form.is_valid():
         ac.location = form.cleaned_data['location']
@@ -26,6 +27,7 @@ def details(request, ac_id):
     else:
         print('invalid')
    else:
+    ## display data
     form = AccountForm()
     form.fields["name"].initial = ac.name
     form.fields["location"].initial = ac.location
@@ -59,10 +61,3 @@ def add_account(request):
     return HttpResponse(template.render(context, request))
 
 
-def testing(request):
-  data = Account.objects.filter(provider='HSBC', location="HK").values()
-  template = loader.get_template('testing.html')
-  context = {
-    'data': data,
-  }
-  return HttpResponse(template.render(context, request))

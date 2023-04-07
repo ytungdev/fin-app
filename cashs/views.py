@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import CashRecord
 from accounts.models import Account
-from cashs.models import CashRecord
 from datetime import date
 
 def records(request):
@@ -42,4 +41,4 @@ def add_record(request):
       'accounts': zip(accounts, prev_bal)
     }
     # print(prev_bal)
-    return render(request, 'add_record.html', context)
+    return render(request, 'add_cash_record.html', context)

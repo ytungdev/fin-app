@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Currency - add record
+{% endblock %}
+
+{% block header %}
+    Currency - add record
+{% endblock %}
+
+
+{% block content %}
+    <form action="{% url 'currencies:add' %}" method="post">
+    {% csrf_token %}
+    <table>
+        {% for curr, bal in currs %}
+            <tr>
+                <td>{{ curr }}</td>
+                <td><input type="number" name="rate_{{ curr }}" value="{{ bal }}"></td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td>No account is available.</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3">
+                <input type="date" name="date" style="float:right">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <input type="submit" value="Save" style="float:right">
+            </td>
+        </tr>
+    </table> 
+
+{% endblock %}
+
+
+{% block actions %}
+    <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
+{% endblock%}

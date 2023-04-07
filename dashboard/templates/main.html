@@ -11,8 +11,21 @@
 
 {% block content %}
     <ul>
-        <li><a href="{% url "accounts:all" %}">accounts</a></li>
-        <li><a href="{% url "cashs:add" %}">add_cash_record</a></li>
+        <li>ACCOUNT
+          <ul>
+            <li><a href="{% url "accounts:all" %}">accounts</a></li>
+          </ul>
+        </li>
+        <li>CASH
+          <ul>
+            <li><a href="{% url "cashs:add" %}">add_cash_record</a></li>
+          </ul>
+        </li>
+        <li>CURRENCY
+          <ul>
+            <li><a href="{% url "currencies:add" %}">add_currency_record</a></li>
+          </ul>
+        </li>
         <li><a href="{% url "dashboard:testing" %}">testing</a></li>
     </ul>
 {% endblock %}
