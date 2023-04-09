@@ -16,7 +16,7 @@
         {% for curr, bal in currs %}
             <tr>
                 <td>{{ curr }}</td>
-                <td><input type="number" name="rate_{{ curr }}" value="{{ bal }}"></td>
+                <td><input type="number" name="rate_{{ curr }}" value="{{ bal }}" step="any"></td>
             </tr>
         {% empty %}
             <tr>
