@@ -1,3 +1,5 @@
 # ignore db update
 
 *.sqlite3
+
+__pycache__/
