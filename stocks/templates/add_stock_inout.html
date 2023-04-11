@@ -71,10 +71,11 @@
             </td>
         </tr>
     </table> 
-
+    </form>
 {% endblock %}
 
 
 {% block actions %}
+    <a href="{% url 'stocks:inouts' %}"><button>Back</button></a>
     <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
 {% endblock%}

@@ -11,16 +11,19 @@
 
 {% block content %}
     <table>
-        {% for x in all_account %}
+        <tr><td>date</td><td>stock</td><td>price</td><td>unit</td><td>value</td></tr>
+        {% for rec, stock, worth in data %}
         <tr>
-            <td>{{ x.location }}</td>
-            <td>{{ x.provider }}</td>
-            <td>{{ x.curr }}</td>
-            <td><a href="{% url 'accounts:details' x.id %}">{{ x.name }}</a></td>
+            <td>{{rec.date|date:"Y-m-d"}}</td>
+            <td><a href="{% url "stocks:add_inout" stock.id  %}">{{stock.name}}</a></td>
+            <td style="text-align:right">{{rec.price}}</td>
+            <td style="text-align:right">{{rec.unit}}</td>
+            <td style="text-align:right">{{worth|floatformat:4}}</td>
         </tr>
-        {% empty %}
-            <tr><td>No reocrd</td><tr>
-        {% endfor %}
+    {% empty %}
+        <tr><td>NO DATA</td></tr>
+    {% endfor %}
+
     </table>
 {% endblock %}
 

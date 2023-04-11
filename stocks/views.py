@@ -16,11 +16,18 @@ def format_symbol(sym):
     return res
 
 def inouts(request):
-  records = StockInOut.objects.all().values()
-  context = {
-    'records': records,
-  }
-  return render(request, 'inouts.html', context)
+    inout = StockInOut.objects.order_by('-date').values()
+    stocks = []
+    worths = []
+    for rec in inout:
+       stock = Stock.objects.filter(id=rec["stock_id"]).values()[0]
+       stocks.append(stock)
+       worths.append(rec["price"] * rec["unit"] * -1)
+    print(stocks)
+    context = {
+        'data': zip(inout, stocks, worths),
+    }
+    return render(request, 'inouts.html', context)
 
 def add_inout(request, stock_id=None):
   if request.method == 'POST':
@@ -36,6 +43,7 @@ def add_inout(request, stock_id=None):
             new.name = data.get("name").strip()
             new.symbol = sym
             new.market = data.get("market").upper()
+            new.curr = data.get("curr").upper()
             new.save()
             stock_id = new.id
         else:
@@ -67,18 +75,20 @@ def add_inout(request, stock_id=None):
             form.fields["market"].initial = stock[0]["market"]
             form.fields["symbol"].initial = stock[0]["symbol"]
             form.fields["name"].initial = stock[0]["name"]
-            
+            form.fields["curr"].initial = stock[0]["curr"]
+
             form.fields["market"].disabled = True
             form.fields["symbol"].disabled = True
             form.fields["name"].disabled = True
+            form.fields["curr"].disabled = True
 
             inout = StockInOut.objects.filter(stock_id=stock_id).order_by('-date').values()
             worths = []
             gain = 0
             bal = 0
             for rec in inout:
-                worth = rec["unit"] * rec["price"]
-                gain -= worth
+                worth = rec["unit"] * rec["price"] * -1
+                gain += worth
                 bal += rec["unit"]
                 worths.append(worth)
                 
