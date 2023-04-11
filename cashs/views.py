@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from .models import CashRecord
 from accounts.models import Account
 from datetime import date
+import os
+import csv
+
 
 def records(request):
   records = CashRecord.objects.all().values()
@@ -42,3 +45,27 @@ def add_record(request):
     }
     # print(prev_bal)
     return render(request, 'add_cash_record.html', context)
+ 
+def load(request):
+  f = os.path.join('statics', 'secret', "cashrecords.csv")
+  with open(f, mode='r') as infile:
+    reader = csv.reader(infile)
+    for row in reader:
+      ac = Account.objects.filter(name=row[0].strip()).values()[0]
+      if ac:
+        a = ac["id"]
+        d = row[1].strip()
+        b = row[2].strip()
+        rec = CashRecord.objects.filter(account=a, date=d).values()
+        if rec:
+          print(f'record exist : {d} - {ac["name"]}')
+        else:
+          new_rec = CashRecord()
+          new_rec.account_id = a
+          new_rec.date = d
+          new_rec.balance = b
+          new_rec.save()
+      else:
+        print(f"account not exist : {row[0]}")
+  return redirect('/dashboard')
+

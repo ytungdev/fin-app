@@ -1,9 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from accounts.models import Account
 from cashs.models import CashRecord
 from currencies.models import CurrencyRecord
 from datetime import date
 import calendar
+import csv
+import json
+import os
+
 
 def main(request):
   context = {}
@@ -45,9 +49,6 @@ def date_range(yr, mo):
   last_d = calendar.monthrange(yr, mo)[1]
   return date(yr, mo, 1), date(yr, mo, last_d)
 
-
-def load_csv(request):
-  return 1
 
 def testing(request):
   accounts = Account.objects.all().values()

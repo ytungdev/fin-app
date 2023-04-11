@@ -1,9 +1,11 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.views import generic
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from .models import Account
 from .forms import AccountForm
+import os
+import csv
 
 class AccountList(generic.ListView):
   template_name = 'account_list.html'
@@ -60,4 +62,27 @@ def add_account(request):
     context = {'form':form, 'data':None}
     return HttpResponse(template.render(context, request))
 
+
+def load(request):
+  f = os.path.join('statics', 'secret', "accounts.csv")
+  with open(f, mode='r') as infile:
+    reader = csv.reader(infile)
+    for row in reader:
+      l = row[0].strip()
+      n = row[1].strip()
+      p = row[2].strip()
+      c = row[3].strip()
+      r = row[4].strip()
+      ac = Account.objects.filter(name=n).values()
+      if ac:
+        print(f'account exist : {n}')
+      else:
+        new_ac = Account()
+        new_ac.location = l
+        new_ac.provider = p
+        new_ac.name = n
+        new_ac.curr = c
+        new_ac.remark = r
+        new_ac.save()
+    return redirect('/dashboard')
 
