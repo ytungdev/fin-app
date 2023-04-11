@@ -46,6 +46,9 @@ def date_range(yr, mo):
   return date(yr, mo, 1), date(yr, mo, last_d)
 
 
+def load_csv(request):
+  return 1
+
 def testing(request):
   accounts = Account.objects.all().values()
   rec_cash = []

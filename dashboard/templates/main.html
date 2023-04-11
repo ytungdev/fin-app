@@ -31,7 +31,14 @@
             <li><a href="{% url "dashboard:monthly_cash" %}">monthly_cash</a></li>
           </ul>
         </li>
-        <li><a href="{% url "dashboard:testing" %}">testing</a></li>
+        <li>Utility
+          <ul>
+            <li><a href="{% url "dashboard:testing" %}">testing</a></li>
+          </ul>
+          <!-- <ul>
+            <li><a href="{% url "dashboard:load_csv" %}">load_csv</a></li>
+          </ul> -->
+        </li>
     </ul>
 {% endblock %}
 
