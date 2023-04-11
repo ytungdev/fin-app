@@ -91,36 +91,39 @@ def add_inout(request, stock_id=None):
                 gain += worth
                 bal += rec["unit"]
                 worths.append(worth)
+            
+            # data = zip(inout, worths) if inout else None
+            data = zip(inout, worths)
                 
             context = {
                 'stock_id':stock_id, 
                 'form':form, 
-                'data': zip(inout, worths), 
+                'data': data, 
                 'gain': gain,
                 'bal':bal
             }
             return render(request, 'add_stock_inout.html', context)
  
 def load(request):
-  f = os.path.join('statics', 'secret', "cashrecords.csv")
-  with open(f, mode='r') as infile:
-    reader = csv.reader(infile)
-    for row in reader:
-      ac = Account.objects.filter(name=row[0].strip()).values()[0]
-      if ac:
-        a = ac["id"]
-        d = row[1].strip()
-        b = row[2].strip()
-        rec = CashRecord.objects.filter(account=a, date=d).values()
-        if rec:
-          print(f'record exist : {d} - {ac["name"]}')
-        else:
-          new_rec = CashRecord()
-          new_rec.account_id = a
-          new_rec.date = d
-          new_rec.balance = b
-          new_rec.save()
-      else:
-        print(f"account not exist : {row[0]}")
+#   f = os.path.join('statics', 'secret', "cashrecords.csv")
+#   with open(f, mode='r') as infile:
+#     reader = csv.reader(infile)
+#     for row in reader:
+#       ac = Account.objects.filter(name=row[0].strip()).values()[0]
+#       if ac:
+#         a = ac["id"]
+#         d = row[1].strip()
+#         b = row[2].strip()
+#         rec = CashRecord.objects.filter(account=a, date=d).values()
+#         if rec:
+#           print(f'record exist : {d} - {ac["name"]}')
+#         else:
+#           new_rec = CashRecord()
+#           new_rec.account_id = a
+#           new_rec.date = d
+#           new_rec.balance = b
+#           new_rec.save()
+#       else:
+#         print(f"account not exist : {row[0]}")
   return redirect('/dashboard')
 
