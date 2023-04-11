@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Stocks - add InOut
+{% endblock %}
+
+{% block header %}
+    Stocks - add InOut
+{% endblock %}
+
+
+{% block content %}
+    {% if stock_id %}
+    <form action="{% url 'stocks:add_inout' stock_id%}" method="post">
+    {% else %}
+    <form action="{% url 'stocks:add_inout' %}" method="post">
+    {% endif %}
+
+    {% csrf_token %}
+    <table>
+        {% for field in form %}
+            <tr>
+                <th>{{field.label_tag}}</td>
+                <td>{{field}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% if data %}
+        <hr>
+        <table>
+            <tr><td>date</td><td>price</td><td>unit</td><td>value</td></tr>
+        {% for rec, worth in data %}
+            <tr>
+                <td>{{rec.date|date:"Y-m-d"}}</td>
+                <td style="text-align:right">{{rec.price}}</td>
+                <td style="text-align:right">{{rec.unit}}</td>
+                <td style="text-align:right">{{worth|floatformat:4}}</td>
+            </tr>
+        {% empty %}
+            <tr><td>NO DATA</td></tr>
+        {% endfor %}
+        
+        {% if gain %}
+            <tr>
+                <td colspan="2"></td>
+                <td style="text-align:right">{{bal|floatformat:4}}</td>
+                <td style="text-align:right">{{gain|floatformat:4}}</span></td></tr>
+        {% endif %}
+
+        </table>
+    {% endif %}
+    <hr>
+    <table>
+        <tr>
+            <th>Price</td>
+            <td><input type="number" name="price" step="any" required></td>
+        </tr>
+        <tr>
+            <th>Unit</td>
+            <td><input type="number" name="unit" step="any" required></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <input type="date" name="date" style="float:right">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <input type="submit" value="Save" style="float:right">
+            </td>
+        </tr>
+    </table> 
+
+{% endblock %}
+
+
+{% block actions %}
+    <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
+{% endblock%}

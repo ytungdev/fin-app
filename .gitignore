@@ -1,6 +1,8 @@
 # ignore db update
 
 *.sqlite3
+migrations/
+
 
 __pycache__/
 .DS_Store

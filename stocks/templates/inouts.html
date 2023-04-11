@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Stocks - InOut
+{% endblock %}
+
+{% block header %}
+    Stocks - InOut
+{% endblock %}
+
+
+{% block content %}
+    <table>
+        {% for x in all_account %}
+        <tr>
+            <td>{{ x.location }}</td>
+            <td>{{ x.provider }}</td>
+            <td>{{ x.curr }}</td>
+            <td><a href="{% url 'accounts:details' x.id %}">{{ x.name }}</a></td>
+        </tr>
+        {% empty %}
+            <tr><td>No reocrd</td><tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+
+{% block actions %}
+    <a href="{% url 'stocks:add_inout' %}"><button>Add</button></a>
+
+    <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
+    {% comment %} <input type="button" value="back" style="" onclick="history.back()"> {% endcomment %}
+{% endblock%}
