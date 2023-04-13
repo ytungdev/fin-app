@@ -35,12 +35,13 @@
             </td>
         </tr>
     </table>
-
+    </form>
 {% endblock %}
 
 
 {% block actions %}
-    <input type="button" value="back" style="" onclick="history.back()">
+    <!-- <input type="button" value="back" style="" onclick="history.back()"> -->
+    <a href="{% url 'accounts:all' %}"><button>Back</button></a>
     <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
 {% endblock%}
 

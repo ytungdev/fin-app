@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Stocks - list
+{% endblock %}
+
+{% block header %}
+  Stocks - list
+{% endblock %}
+
+
+{% block content %}
+    <table>
+        <tr>
+          <th>market</th>
+          <th>symbol</th>
+          <th>name</th>
+          <th>curr</th>
+        </tr>  
+        {% for x in all_stock %}
+        <tr>
+            <td>{{ x.market }}</td>
+            <td>{{ x.symbol }}</td>
+            <td><a href="{% url 'stocks:view_stock' x.id %}">{{ x.name }}</a></td>
+            <td>{{ x.curr }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" style="text-align:center">No reocrd</td><tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+
+{% block actions %}
+    <a href="{% url 'stocks:view_stock' %}"><button>Add</button></a>
+
+    <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
+    {% comment %} <input type="button" value="back" style="" onclick="history.back()"> {% endcomment %}
+{% endblock%}
