@@ -9,6 +9,48 @@
 {% endblock %}
 
 
+{% block html_head %}
+<script>
+    $(function () {
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        date.max = new Date().toISOString().split("T")[0];
+        $('#date').on('change', function () {
+            $('#fetch').prop('disabled', false);
+        });
+        $('#fetch').on('click', function () {
+            var d = $('#date').val();
+            console.log(d)
+            $('#fetch').prop('disabled', true);
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'currencies:fetch' %}",
+                headers: {'X-CSRFToken': csrftoken},
+                mode: 'same-origin',
+                data: {
+                    date: d,
+                },
+                dataType : 'json',
+                success: function (response) {
+                    $("#date").val(response.data.date);
+                    var rates = response.data.rates;
+                    for(var curr in rates){
+                        $('#rate_'+curr).val(rates[curr]);
+                    }
+                },
+                error: function(response, textStatus, errorThrown) { 
+                    console.log("Status: " + textStatus); 
+                    console.log("Error: " + errorThrown); 
+                    data = response.responseJSON.data.error
+                    console.log(data)
+                    alert("code :"+data.code+"\nmessage :"+data.message)
+                },
+            });
+        });
+    });
+</script>
+{% endblock %}
+
+
 {% block content %}
     <form action="{% url 'currencies:add' %}" method="post">
     {% csrf_token %}
@@ -16,7 +58,7 @@
         {% for curr, bal in currs %}
             <tr>
                 <td>{{ curr }}</td>
-                <td><input type="number" name="rate_{{ curr }}" value="{{ bal }}" step="any"></td>
+                <td><input type="number" name="rate_{{ curr }}" value="{{ bal }}" step="any" id="rate_{{ curr }}"></td>
             </tr>
         {% empty %}
             <tr>
@@ -24,8 +66,9 @@
             </tr>
         {% endfor %}
         <tr>
-            <td colspan="3">
-                <input type="date" name="date" style="float:right">
+            <td colspan="2">
+                <button style="float:right" type="button" id="fetch">Fetch</button>
+                <input type="date" name="date" style="float:right" id="date">
             </td>
         </tr>
         <tr>

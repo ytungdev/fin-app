@@ -1,7 +1,15 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
+
 from .models import CurrencyRecord
 from accounts.models import Account
-from datetime import date
+import utils
+
+from datetime import date, datetime
+import requests
+
+from forex_python.converter import CurrencyRates
+
 
 def records(request):
   records = CurrencyRecord.objects.all().values()
@@ -12,7 +20,7 @@ def records(request):
 
 def add_record(request):
   currs = Account.objects.order_by().values_list('curr', flat=True).distinct()
-#   print(currs)
+  ## recieve form
   if request.method == 'POST':
     data = request.POST
     # print(data)
@@ -30,6 +38,7 @@ def add_record(request):
       else:
         print(f"nope : {curr}")
     return redirect('/dashboard')
+  ## render form
   else:
     prev_rate = []
     for curr in currs:
@@ -43,3 +52,39 @@ def add_record(request):
     }
     # print(zip(currs, prev_rate))
     return render(request, 'add_curr_record.html', context)
+
+def fetch_curr(request):
+    
+    if request.method == "POST":
+
+        data = request.POST
+        d =  data.get("date") if data.get("date") else date.today()
+        currs = list(Account.objects.order_by().values_list('curr', flat=True).distinct())
+        rates = {}
+        syms = ",".join(currs)
+
+        req = get_forex_api(d, syms)
+        print(req)
+        if req[0] != 200:
+          return JsonResponse({"data": req[1]}, status=req[0])
+
+        for curr in currs:
+          rates[curr] = req[1]["rates"][curr]
+        data = {
+          "date" : d,
+          "currs" : currs,
+          "rates" : rates
+        }
+        return JsonResponse({"data": data}, status=200)
+    
+def get_forex_api(d, syms):
+    key = utils.get_secret("FOREX_API_KEY")
+    base = "HKD"
+    url = f"https://api.apilayer.com/exchangerates_data/{d}?base={base}&symbols={syms}"
+    payload = {}
+    headers= {"apikey": key}
+    response = requests.request("GET", url, headers=headers, data = payload)
+    status_code = response.status_code
+    result = response.json()
+    return status_code, result
+
