@@ -9,7 +9,7 @@
 {% endblock %}
 
 
-{% block content %}
+{% block content %}    
     <ul>
         <li>ACCOUNT
           <ul>
@@ -32,6 +32,9 @@
           </ul>
           <ul>
             <li><a href="{% url "stocks:inouts" %}">stock_in_out</a></li>
+          </ul>
+          <ul>
+            <li><a href="{% url "stocks:add_record" %}">add_record</a></li>
           </ul>
         </li>
         <li>SUMMARY

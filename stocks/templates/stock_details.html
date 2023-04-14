@@ -17,21 +17,11 @@
     th {
         text-align: left;
         background-color : #d4d4d4;
-        width: 75px;
-        display: inline-block;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
     
     {% if data %}
         <form action="{% url 'stocks:view_stock' data.id %}" method="post">
@@ -40,7 +30,7 @@
     {% endif %}
 
     {% csrf_token %}
-    <table>
+    <table  class="table table-bordered">
     {% for field in form %}
         <tr>
             <th>{{field.label_tag}}</th>
@@ -63,7 +53,8 @@
         <a href="{% url 'stocks:add_inout' data.id %}"><button>Add InOut</button></a>
         <hr>
     {% endif %}
-    <a href="{% url 'stocks:stocks' %}"><button>Back</button></a>
+    <!-- <a href="{% url 'stocks:stocks' %}"><button>Back</button></a> -->
+    <button onclick="history.back()">Back</button>
     <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
 {% endblock%}
 

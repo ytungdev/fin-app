@@ -21,7 +21,7 @@
     {% endif %}
 
     {% csrf_token %}
-    <table>
+    <table class="table table-bordered">
     {% for field in form %}
         <tr>
             <td>{{field.label_tag}}</td>

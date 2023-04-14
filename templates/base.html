@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <base href="." target="_self">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
         body {
-            font-family : Arial;
+            font-family: Arial;
         }
-        table, th, td {
+
+        /* table, th, td {
             border: 1px solid black;
-        }
+        } */
         a {
             text-decoration: none;
             color: blue;
         }
+
         .unselectable {
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -30,11 +34,30 @@
 
     {% block html_head %}{% endblock %}
 </head>
+
 <body>
-    <h1>{% block header %}{% endblock %}</h1>
-    <hr>
-    {% block content %}{% endblock %}
-    <hr>
-    {% block actions %}{% endblock %}
+    <div class="container">
+        <!-- Content here -->
+        <h1>{% block header %}{% endblock %}</h1>
+        <hr>
+
+
+        {% if messages %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+
+        {% block content %}{% endblock %}
+        <hr>
+        {% block actions %}{% endblock %}
+    </div>
 </body>
+
 </html>

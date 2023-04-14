@@ -1,113 +1,116 @@
 {% extends "base.html" %}
 
 {% block title %}
-  SUMMARY - monthly cash : {{yr}}_{{mo}}
+SUMMARY - monthly cash : {{yr}}_{{mo}}
 {% endblock %}
 
 
 {% block html_head%}
-  <style>
+<style>
     .date_select {
-      border: 2px solid grey;
-      border-radius: 5px;
-      padding: 3px;
-      margin: 3px;
-      display: inline-block;
-      text-align: center;
+        border: 2px solid grey;
+        border-radius: 5px;
+        padding: 3px;
+        margin: 3px;
+        display: inline-block;
+        text-align: center;
     }
-    .mo {
-      width : 24px;
-      border-color : #690311;
-    }
-    .yr {
-      width : 64px;
-      border-color : #010963
-    }
-  </style>
-  <script>
-    var selected = {yr:0, mo:0};
 
-    $(document).ready(function(){
-      $('.date_select.mo').click(function(){
-        change_var("mo", $(this));
-      });
-      $('.date_select.yr').click(function(){
-        change_var("yr", $(this));
-      });
+    .mo {
+        width: 24px;
+        border-color: #690311;
+    }
+
+    .yr {
+        width: 64px;
+        border-color: #010963
+    }
+</style>
+<script>
+    var selected = { yr: 0, mo: 0 };
+
+    $(document).ready(function () {
+        $('.date_select.mo').click(function () {
+            change_var("mo", $(this));
+        });
+        $('.date_select.yr').click(function () {
+            change_var("yr", $(this));
+        });
     });
 
-    function change_var(key, btn){
-      var val = btn.attr("data");
-      if (selected[key] == val){
-        btn.css("background-color", "white");
-        btn.css("color", "black");
-        selected[key] = 0;
-      } else {
-        btn.css("background-color", "grey");
-        btn.css("color", "white");
-        if(selected[key] != 0){
-          $("#"+key+"_"+selected[key]).css("background-color", "white");
-          $("#"+key+"_"+selected[key]).css("color", "black");
+    function change_var(key, btn) {
+        var val = btn.attr("data");
+        if (selected[key] == val) {
+            btn.css("background-color", "white");
+            btn.css("color", "black");
+            selected[key] = 0;
+        } else {
+            btn.css("background-color", "grey");
+            btn.css("color", "white");
+            if (selected[key] != 0) {
+                $("#" + key + "_" + selected[key]).css("background-color", "white");
+                $("#" + key + "_" + selected[key]).css("color", "black");
+            }
+            selected[key] = val;
         }
-        selected[key] = val;
-      }
-      if (selected["yr"] && selected["mo"]){
-        window.location.replace(`{% url "dashboard:monthly_cash"  %}${selected["yr"]}/${selected["mo"]}`);
-      }
-      console.log(selected);
+        if (selected["yr"] && selected["mo"]) {
+            window.location.replace(`{% url "dashboard:monthly_cash"  %}${selected["yr"]}/${selected["mo"]}`);
+        }
+        console.log(selected);
     }
-  </script>
+</script>
 {% endblock%}
 
 {% block header %}
-  SUMMARY - monthly cash : {{yr}}_{{mo}}
+SUMMARY - monthly cash : {{yr}}_{{mo}}
 {% endblock %}
 
 
 {% block content %}
-  {% load humanize %}
-  <div style="margin:10px">
+{% load humanize %}
+<div style="margin:10px">
     <div>
-      {% for i in 'abcde'|make_list %}
-      <span class="date_select yr unselectable" data="{{ forloop.counter|add:"2018" }}" id="yr_{{forloop.counter|add:"2018"}}">{{ forloop.counter|add:"2018"}}</span>
-      {% endfor %}
+        {% for i in 'abcde'|make_list %}
+        <span class="date_select yr unselectable" data="{{ forloop.counter|add:'2018' }}" id="yr_{{forloop.counter|add:'2018'}}">{{ forloop.counter|add:"2018"}}</span>
+        {% endfor %}
     </div>
     <br>
     <div>
-    {% for i in 'abcdefghijkl'|make_list %}
-    <span class="date_select mo unselectable" data="{{ forloop.counter }}" id="mo_{{forloop.counter}}">{{ forloop.counter}}</span>
-    {% endfor %}
+        {% for i in 'abcdefghijkl'|make_list %}
+        <span class="date_select mo unselectable" data="{{ forloop.counter }}" id="mo_{{forloop.counter}}">{{forloop.counter}}</span>
+        {% endfor %}
     </div>
-  </div>
-  <hr>
-  <table>
+</div>
+<hr>
+<table class="table table-bordered">
     <tr>
-      <th>acc</th>
-      <th>bal</th>
-      <th>curr</th>
-      <th>rate</th>
-      <th>val</th>
+        <th>acc</th>
+        <th>bal</th>
+        <th>curr</th>
+        <th>rate</th>
+        <th>val</th>
     </tr>
-  {% for acc,bal,rate,val in data %}
+    {% for acc,bal,rate,val in data %}
     <tr>
-      <td><span style="">{{ acc.name }}</span></td>
-      <td><span style="float:right">{{ bal|floatformat:4|intcomma }}</span></td>
-      <td><span style="float:right">{{ acc.curr}}</span></td>
-      <td><span style="float:right">{{ rate|floatformat:4 }}</span></td>
-      <td><span style="float:right">{{ val|floatformat:4|intcomma  }}</span></td>
+        <td><span style="">{{ acc.name }}</span></td>
+        <td><span style="float:right">{{ bal|floatformat:4|intcomma }}</span></td>
+        <td><span style="float:right">{{ acc.curr}}</span></td>
+        <td><span style="float:right">{{ rate|floatformat:4 }}</span></td>
+        <td><span style="float:right">{{ val|floatformat:4|intcomma }}</span></td>
     </tr>
-  {% empty %}
+    {% empty %}
     <tr>
         <td colspan="5">No data is available.</td>
     </tr>
-  {% endfor %}
-  <tr>
-    <td colspan="4"></td><td><span style="float:right">{{ sum|floatformat:4|intcomma }}</span></td>
-  </tr>
-  </table>
+    {% endfor %}
+    <tr>
+        <td colspan="4"></td>
+        <td><span style="float:right">{{ sum|floatformat:4|intcomma }}</span></td>
+    </tr>
+</table>
 {% endblock %}
 
 
 {% block actions %}
-    <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
+<a href="{% url 'dashboard:home' %}"><button>Home</button></a>
 {% endblock%}

@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Currency - add record
+    Stock - add record
 {% endblock %}
 
 {% block header %}
-    Currency - add record
+    Stock - add record
 {% endblock %}
 
 
@@ -52,27 +52,30 @@
 
 
 {% block content %}
-    <form action="{% url 'currencies:add' %}" method="post">
+    <form action="{% url 'stocks:add_record' %}" method="post">
     {% csrf_token %}
     <table class="table table-bordered">
-        {% for curr, bal in currs %}
+        {% for stock, prev_price in stocks %}
             <tr>
-                <td>{{ curr }}</td>
-                <td><input type="number" name="rate_{{ curr }}" value="{{ bal }}" step="any" id="rate_{{ curr }}"></td>
+                <td>{{ stock.market }}</td>
+                <td>{{ stock.symbol }}</td>
+                <td><a href="{% url 'stocks:view_stock' stock.id %}">{{ stock.name }}</a></td>
+                <td><input type="number" name="price_{{ stock.id }}" value="{{ prev_price }}" step="any" id="price_{{ stock.id }}"></td>
+                <td>{{ stock.curr }}</td>
             </tr>
         {% empty %}
             <tr>
-                <td>No account is available.</td>
+                <td>No stock is available.</td>
             </tr>
         {% endfor %}
         <tr>
-            <td colspan="2">
+            <td colspan="5">
                 <button style="float:right" type="button" id="fetch">Fetch</button>
                 <input type="date" name="date" style="float:right" id="date">
             </td>
         </tr>
         <tr>
-            <td colspan="3">
+            <td colspan="5">
                 <input type="submit" value="Save" style="float:right">
             </td>
         </tr>

@@ -10,9 +10,17 @@
 
 
 {% block content %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <form action="{% url 'cashs:add' %}" method="post">
     {% csrf_token %}
-    <table>
+    <table class="table table-bordered">
         {% for account, bal in accounts %}
             <tr>
                 <td>{{ account.name }}</td>
@@ -35,10 +43,12 @@
             </td>
         </tr>
     </table> 
-
+    </form>
 {% endblock %}
 
 
 {% block actions %}
+    <a href="{% url 'accounts:add' %}"><button>Add</button></a>
+
     <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
 {% endblock%}

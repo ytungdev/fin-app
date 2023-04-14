@@ -13,20 +13,11 @@
     th {
         text-align: left;
         background-color : #d4d4d4;
-        width: 75px;
-        display: inline-block;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
     
     {% if stock_id %}
     <form action="{% url 'stocks:add_inout' stock_id%}" method="post">
@@ -35,7 +26,7 @@
     {% endif %}
 
     {% csrf_token %}
-    <table>
+    <table class="table table-bordered">
         {% for field in form %}
             <tr>
                 <th>{{field.label_tag}}</td>
@@ -46,7 +37,7 @@
 
     {% if data %}
         <hr>
-        <table>
+        <table class="table table-bordered">
             <tr><td>date</td><td>price</td><td>unit</td><td>value</td></tr>
         {% for rec, worth in data %}
             <tr>
@@ -69,7 +60,7 @@
         </table>
     {% endif %}
     <hr>
-    <table>
+    <table class="table table-bordered">
         <tr>
             <th>Price</td>
             <td><input type="number" name="price" step="any" required></td>
@@ -94,6 +85,7 @@
 
 
 {% block actions %}
-    <a href="{% url 'stocks:inouts' %}"><button>Back</button></a>
+    <!-- <a href="{% url 'stocks:inouts' %}"><button>Back</button></a> -->
+    <input type="button" value="Back" style="" onclick="history.back()">
     <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
 {% endblock%}

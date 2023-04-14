@@ -9,5 +9,6 @@ urlpatterns = [
     path('view_stock/', views.view_stock, name='view_stock'),    
     path('view_stock/<int:stock_id>', views.view_stock, name='view_stock'),    
     path('add_inout/', views.add_inout, name='add_inout'),    
-    path('add_inout/<int:stock_id>/', views.add_inout, name='add_inout'),    
+    path('add_inout/<int:stock_id>/', views.add_inout, name='add_inout'),
+    path('add_record/', views.add_record, name='add_record'),
 ]
