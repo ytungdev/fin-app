@@ -8,8 +8,6 @@ import utils
 from datetime import date, datetime
 import requests
 
-from forex_python.converter import CurrencyRates
-
 
 def records(request):
     records = CurrencyRecord.objects.all().values()

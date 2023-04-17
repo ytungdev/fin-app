@@ -1,0 +1,15 @@
+{
+    "name": "fin-app",
+    "build": {
+      "context": "..",
+      "dockerfile": "Dockerfile"
+    },
+    "containerEnv": {
+      "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}",
+      "GITHUB_USER": "${localEnv:GITHUB_USER}"
+    },
+    "extensions": [],
+    "settings": {
+      "editor.tabSize": 4
+    }
+  }
