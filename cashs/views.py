@@ -30,7 +30,7 @@ def add_record(request):
                 rec = CashRecord.objects.filter(
                     date=d, account_id=ac.id).values()
                 if rec:
-                    messages.error(request, f'record exist : {d} - {ac.name}')
+                    messages.error(request, f'record exist : {d} | {ac.name}')
                     error += 1
                 else:
                     # new entry to db
