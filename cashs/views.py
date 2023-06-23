@@ -65,7 +65,7 @@ def add_record(request):
 
 
 def load(request):
-    f = os.path.join('statics', 'secret', "cashrecords.csv")
+    f = os.path.join('statics', 'demo', "cashrecords.csv")
     with open(f, mode='r') as infile:
         reader = csv.reader(infile)
         for row in reader:
