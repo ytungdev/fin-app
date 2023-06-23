@@ -78,7 +78,7 @@ def fetch_curr(request):
             return JsonResponse({"data": data}, status=200)
 
 def get_forex_api(d, syms):
-    key = utils.get_secret("FOREX_API_KEY")
+    key = utils.use_env("FOREX_API_KEY")
     base = "HKD"
     url = f"https://api.apilayer.com/exchangerates_data/{d}?base={base}&symbols={syms}"
     payload = {}
