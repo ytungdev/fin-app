@@ -37,9 +37,9 @@ def add_record(request):
                     new_rec = CashRecord()
                     new_rec.account_id = ac.id
                     new_rec.date = d
-                    new_rec.balance = res
+                    new_rec.balance = inp
                     new_rec.save()
-                    print(f"{ac.id} : {new_rec}")
+                    print(f"{ac.id} : {d}, {inp} - {new_rec}")
             else:
                 messages.error(request, f'no entries : {ac.name}')
         if error:
@@ -57,7 +57,8 @@ def add_record(request):
             else:
                 prev_bal.append("")
         context = {
-            'accounts': zip(accounts, prev_bal)
+            'accounts': zip(accounts, prev_bal),
+            'date':date.today().strftime('%Y-%m-%d')
         }
         # print(prev_bal)
         return render(request, 'add_cash_record.html', context)
