@@ -3,14 +3,17 @@
 To help personal finance.
 
 
+## Create `.env` file
 
-## forex_api
-Provider : https://apilayer.com/marketplace/exchangerates_data-api
+**[required]** Add _FOREX_API_KEY_ from [provider](https://apilayer.com/marketplace/exchangerates_data-api) into `.env` file
+  
+```.env
+FOREX_API_KEY="<your_key>"
+```
 
-## secrets.json
-create your own `secrets.json` with credentials.
-```json
-{
-    "FOREX_API_KEY" : "<your_key>",
-}
+## Usage
+```
+python3 -m pip install -r requirements.txt
+sh migration.sh
+python3 manage.py runserver   
 ```
