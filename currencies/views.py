@@ -48,7 +48,8 @@ def add_record(request):
             else:
                 prev_rate.append("")
         context = {
-            'currs': zip(currs, prev_rate)
+            'currs': zip(currs, prev_rate),
+            'date':date.today().strftime('%Y-%m-%d')
         }
         # print(zip(currs, prev_rate))
         return render(request, 'add_curr_record.html', context)
@@ -62,14 +63,14 @@ def fetch_curr(request):
             'curr', flat=True).distinct())
         rates = {}
         syms = ",".join(currs)
-
+        print('Fetching ...')
         req = get_forex_api(d, syms)
         print(req)
         if req[0] != 200:
             return JsonResponse({"data": req[1]}, status=req[0])
         else:
             for curr in currs:
-                rates[curr] = req[1]["rates"][curr]
+                rates[curr] = round(1 / req[1]["rates"][curr], 4)
             data = {
                 "date": d,
                 "currs": currs,

@@ -64,7 +64,7 @@ def add_account(request):
 
 
 def load(request):
-  f = os.path.join('statics', 'secret', "accounts.csv")
+  f = os.path.join('static', 'demo', "accounts.csv")
   with open(f, mode='r') as infile:
     reader = csv.reader(infile)
     for row in reader:
