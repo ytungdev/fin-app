@@ -10,4 +10,4 @@ def use_env(item):
     try:
         return os.getenv(item)
     except KeyError:
-        raise ImproperlyConfigured("Set the {} setting".format(setting))
+        raise ImproperlyConfigured("Set `{}` in .env".format(item))

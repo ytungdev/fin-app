@@ -21,6 +21,7 @@
             var d = $('#date').val();
             console.log(d)
             $('#fetch').prop('disabled', true);
+            $('#fetch').html('Loading...');
             $.ajax({
                 type: 'POST',
                 url: "{% url 'currencies:fetch' %}",
@@ -31,11 +32,12 @@
                 },
                 dataType : 'json',
                 success: function (response) {
-                    $("#date").val(response.data.date);
                     var rates = response.data.rates;
                     for(var curr in rates){
                         $('#rate_'+curr).val(rates[curr]);
                     }
+                    $('#fetch').prop('disabled', false);
+                    $('#fetch').html('Fetch');
                 },
                 error: function(response, textStatus, errorThrown) { 
                     console.log("Status: " + textStatus); 
@@ -68,7 +70,7 @@
         <tr>
             <td colspan="2">
                 <button style="float:right" type="button" id="fetch">Fetch</button>
-                <input type="date" name="date" style="float:right" id="date">
+                <input type="date" name="date" style="float:right" id="date" value="{{date}}">
             </td>
         </tr>
         <tr>

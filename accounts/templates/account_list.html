@@ -1,35 +1,43 @@
 {% extends "base.html" %}
 
 {% block title %}
-  Accounts - list
+Accounts - list
 {% endblock %}
 
 {% block header %}
-  Accounts - list
+Accounts - list
 {% endblock %}
 
 
 {% block content %}
-    <table class="table table-bordered">
-        {% if all_account %}
-            {% for x in all_account %}
-            <tr>
-                <td>{{ x.location }}</td>
-                <td>{{ x.provider }}</td>
-                <td>{{ x.curr }}</td>
-                <td><a href="{% url 'accounts:details' x.id %}">{{ x.name }}</a></td>
-            </tr>
-            {% endfor %}
-        {% else %}
-            <tr><td>No reocrd</td><tr>
+<table class="table table-bordered">
+    {% if all_account %}
+    <tr style="background-color:cadetblue;color: white;">
+        <td>Location</td>
+        <td>Provider</td>
+        <td>Currency</td>
+        <td>Name</td>
+    </tr>
+    {% for x in all_account %}
+    <tr>
+        <td>{{ x.location }}</td>
+        <td>{{ x.provider }}</td>
+        <td>{{ x.curr }}</td>
+        <td><a href="{% url 'accounts:details' x.id %}">{{ x.name }}</a></td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+        <td>No reocrd</td>
+    <tr>
         {% endif %}
-    </table>
+</table>
 {% endblock %}
 
 
 {% block actions %}
-    <a href="{% url 'accounts:add' %}"><button>Add</button></a>
+<a href="{% url 'accounts:add' %}"><button>Add</button></a>
 
-    <a href="{% url 'dashboard:home' %}"><button>Home</button></a>
-    <!-- <input type="button" value="back" style="" onclick="history.back()"> -->
+<a href="{% url 'dashboard:home' %}"><button>Home</button></a>
+<!-- <input type="button" value="back" style="" onclick="history.back()"> -->
 {% endblock%}
